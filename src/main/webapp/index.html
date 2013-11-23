@@ -60,10 +60,11 @@ body {
 					<span class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
-				<a class="brand" href="/" />TryJava8</a>
+				<a class="brand" href="/">TryJava8</a>
 				<div class="nav-collapse collapse">
 					<ul class="nav">
 						<li class="active"><a href="/">Home</a></li>
+						<li><a href="http://download.java.net/jdk8/docs/api/">Java 8 API</a></li>
 					</ul>
 
 				</div>
@@ -73,7 +74,6 @@ body {
 	</div>
 
 	<div class="container">
-		<c:if test="${sessionScope.user == null}">
 			<div class="row">
 				<div class="span12">
 					<div class="hero-unit">
@@ -84,7 +84,6 @@ body {
 					</div>
 				</div>
 			</div>
-		</c:if>
 
 		<div class="row">
 			<div id="counter" class="span7"></div>
@@ -145,20 +144,21 @@ body {
 				</ul>
 				<h2>Example</h2>
 
-				<pre>import java.util.*;
+				<pre>
+import java.util.*;
 public class Main{
-public static void main(String[] args){
-List&lt;Integer&gt; numbers = new ArrayList&lt;Integer&gt;();
-for(int i = 0;i<200;i++){
-numbers.add(i);
+	public static void main(String[] args){
+		List&lt;Integer&gt; numbers = new ArrayList&lt;Integer&gt;();
+		for(int i = 0;i<200;i++){
+			numbers.add(i);
+		}
+		numbers.forEach((Integer value) -> {
+		if(value % 2 == 0)				
+			System.out.println(value);
+		});
+	}
 }
-numbers.forEach((Integer value) -> {
-if(value % 2 == 0)
-System.out.println(value);
-});
-}
-}
-</pre>
+			</pre>
 			</div>
 		</div>
 
@@ -206,29 +206,24 @@ System.out.println(value);
 	</script>
 	<script type="text/javascript">
 		var clientId = guid();
-		$("#codeForm")
-				.submit(
-						function(event) {
-							event.preventDefault();
-							$('#stopwatch').stopwatch().stopwatch('reset');
-							$("#status").empty();
-							$("#result").empty();
-							var code = $('textarea').val();
-
-							if (!code) {
-								alert("Please write some code");
-								return;
-							}
-							$("#codeForm").mask("Running...");
-							$('#stopwatch').stopwatch().stopwatch('start');
-							var data = {
+		$("#codeForm").submit(
+					function(event) {
+						event.preventDefault();
+						$('#stopwatch').stopwatch().stopwatch('reset');
+						$("#status").empty();
+						$("#result").empty();
+						var code = $('textarea').val();
+						if (!code) {
+							alert("Please write some code");
+							return;
+						}
+						$("#codeForm").mask("Running...");
+						$('#stopwatch').stopwatch().stopwatch('start');
+						var data = {
 								code : code
-							};
-							var url = "http://localhost:8080/tryjava8-api/api/snippets";
-
-							$
-									.ajax(
-											url,
+						};
+						var url = "/api/snippets";
+							$.ajax( url,
 											{
 												data : JSON.stringify(data),
 												crossDomain : true,

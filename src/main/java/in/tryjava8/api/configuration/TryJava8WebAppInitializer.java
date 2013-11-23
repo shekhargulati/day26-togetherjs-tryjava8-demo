@@ -18,13 +18,13 @@ public class TryJava8WebAppInitializer implements WebApplicationInitializer {
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
         AnnotationConfigWebApplicationContext rootCtx = new AnnotationConfigWebApplicationContext();
-        rootCtx.getEnvironment().setActiveProfiles("local");
+        rootCtx.getEnvironment().setActiveProfiles("openshift");
         rootCtx.register(ApplicationConfig.class);
 
         servletContext.addListener(new ContextLoaderListener(rootCtx));
 
         AnnotationConfigWebApplicationContext webCtx = new AnnotationConfigWebApplicationContext();
-        webCtx.getEnvironment().setActiveProfiles("local");
+        webCtx.getEnvironment().setActiveProfiles("openshift");
         webCtx.register(WebAppConfig.class);
 
         DispatcherServlet dispatcherServlet = new DispatcherServlet(webCtx);
